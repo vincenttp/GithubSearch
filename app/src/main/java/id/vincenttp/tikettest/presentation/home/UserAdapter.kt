@@ -3,10 +3,14 @@ package id.vincenttp.tikettest.presentation.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import id.vincenttp.tikettest.R
 import id.vincenttp.tikettest.domain.entity.UserEntity
 
@@ -17,8 +21,14 @@ class UserAdapter : PagedListAdapter<UserEntity, UserAdapter.UserViewHolder>(DIF
 
     class UserViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(userEntity: UserEntity) {
-            val tet = view.findViewById<TextView>(R.id.tvUsername)
-            tet.text = userEntity.login
+            val ivAvatar = view.findViewById<ImageView>(R.id.ivAvatar)
+            val tvUsername = view.findViewById<TextView>(R.id.tvUsername)
+            Glide.with(ivAvatar.context)
+                .load(userEntity.avatar_url)
+                .apply(RequestOptions.circleCropTransform())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(ivAvatar)
+            tvUsername.text = userEntity.login
         }
     }
 
