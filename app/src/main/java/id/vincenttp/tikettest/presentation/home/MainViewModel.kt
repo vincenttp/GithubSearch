@@ -15,8 +15,9 @@ import id.vincenttp.tikettest.domain.repository.UserRepository
  * Created by vincenttp on 15/07/20.
  */
 class MainViewModel(val repository: UserRepository) : ViewModel() {
-    var keyword = MediatorLiveData<String>()
+    private var keyword = MediatorLiveData<String>()
     var users: LiveData<PagedList<UserEntity>>
+    var error: LiveData<String> = PagingDataSource.ERROR_MESSAGE
 
     init {
         val config = PagedList.Config.Builder()

@@ -1,6 +1,7 @@
 package id.vincenttp.tikettest.presentation.home
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
         initView()
         observeUsers()
+        observeError()
     }
 
     private fun initView() {
@@ -30,6 +32,12 @@ class MainActivity : AppCompatActivity() {
     private fun observeUsers() {
         viewModel.users.observe(this, Observer {
             adapter.submitList(it)
+        })
+    }
+
+    private fun observeError() {
+        viewModel.error.observe(this, Observer {
+            Toast.makeText(applicationContext, it, Toast.LENGTH_SHORT).show()
         })
     }
 }

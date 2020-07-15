@@ -1,5 +1,6 @@
 package id.vincenttp.tikettest.data.paging
 
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.ItemKeyedDataSource
 import id.vincenttp.tikettest.domain.base.Result
 import id.vincenttp.tikettest.domain.entity.UserEntity
@@ -7,6 +8,7 @@ import id.vincenttp.tikettest.domain.repository.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 /**
  * Created by vincenttp on 16/07/20.
@@ -25,11 +27,14 @@ class PagingDataSource(private val repository: UserRepository, private val q: St
             invoke {
                 when (it) {
                     is Result.Success<List<UserEntity>> -> {
-                        println("coroutineScope $it")
-                        callback.onResult(it.data)
+                        if (it.data.isNotEmpty()) {
+                            callback.onResult(it.data)
+                        } else {
+                            ERROR_MESSAGE.postValue("No Matching Account")
+                        }
                     }
                     is Result.Error -> {
-                        it.exception.printStackTrace()
+                        errorHandling(it.exception)
                     }
                 }
             }
@@ -41,10 +46,14 @@ class PagingDataSource(private val repository: UserRepository, private val q: St
             invoke {
                 when (it) {
                     is Result.Success<List<UserEntity>> -> {
-                        callback.onResult(it.data)
+                        if (it.data.isNotEmpty()) {
+                            callback.onResult(it.data)
+                        } else {
+                            ERROR_MESSAGE.postValue("No Matching Account")
+                        }
                     }
                     is Result.Error -> {
-                        it.exception.printStackTrace()
+                        errorHandling(it.exception)
                     }
                 }
             }
@@ -62,6 +71,17 @@ class PagingDataSource(private val repository: UserRepository, private val q: St
         coroutineScope.launch {
             result(either { repository.getUser(q, key) })
         }
+    }
+
+    private fun errorHandling(e: Exception) {
+        when (e) {
+            is HttpException -> ERROR_MESSAGE.postValue("Code = ${e.code()} Message = ${e.message()}")
+            else -> ERROR_MESSAGE.postValue(e.message ?: "Unexpected Error")
+        }
+    }
+
+    companion object{
+        val ERROR_MESSAGE = MutableLiveData<String>()
     }
 }
 
