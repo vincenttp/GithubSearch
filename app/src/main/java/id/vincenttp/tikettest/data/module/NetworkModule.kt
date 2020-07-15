@@ -1,5 +1,6 @@
 package id.vincenttp.tikettest.data.module
 
+import id.vincenttp.tikettest.data.base.ApiInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -21,6 +22,7 @@ val networkModule = module {
 
     single {
         val okhttp = get<OkHttpClient.Builder>()
+            .addInterceptor(ApiInterceptor())
             .build()
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
