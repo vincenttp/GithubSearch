@@ -6,5 +6,5 @@ import id.vincenttp.tikettest.domain.entity.UserEntity
  * Created by vincenttp on 13/07/20.
  */
 interface UserRepository {
-    suspend fun getUser(since: Int): List<UserEntity>
+    suspend fun getUser(q: String, page: Int): List<UserEntity>
 }

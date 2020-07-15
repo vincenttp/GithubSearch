@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 /**
  * Created by vincenttp on 16/07/20.
  */
-class PostsDataSource(private val repository: UserRepository) :
+class PagingDataSource(private val repository: UserRepository, private val q: String) :
     ItemKeyedDataSource<Int, UserEntity>() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
@@ -25,7 +25,7 @@ class PostsDataSource(private val repository: UserRepository) :
             invoke {
                 when (it) {
                     is Result.Success<List<UserEntity>> -> {
-                        key = it.data.last().id
+                        println("coroutineScope $it")
                         callback.onResult(it.data)
                     }
                     is Result.Error -> {
@@ -41,7 +41,6 @@ class PostsDataSource(private val repository: UserRepository) :
             invoke {
                 when (it) {
                     is Result.Success<List<UserEntity>> -> {
-                        key = it.data.last().id
                         callback.onResult(it.data)
                     }
                     is Result.Error -> {
@@ -59,8 +58,9 @@ class PostsDataSource(private val repository: UserRepository) :
     override fun getKey(item: UserEntity): Int = key
 
     private fun invoke(result: (Result<List<UserEntity>>) -> Unit) {
+        key++
         coroutineScope.launch {
-            result(either { repository.getUser(key) })
+            result(either { repository.getUser(q, key) })
         }
     }
 }

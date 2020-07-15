@@ -1,6 +1,6 @@
 package id.vincenttp.tikettest.data.api
 
-import id.vincenttp.tikettest.data.response.UserResponse
+import id.vincenttp.tikettest.data.response.SearchResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -9,6 +9,7 @@ import retrofit2.http.Query
  */
 
 interface UserApi {
-    @GET("users")
-    suspend fun getUsers(@Query("since") since: Int): List<UserResponse>
+    @GET("search/users")
+    suspend fun getUsers(@Query("q") q: String, @Query("page") page: Int)
+            : SearchResponse
 }

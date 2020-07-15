@@ -9,7 +9,7 @@ import id.vincenttp.tikettest.domain.entity.UserEntity
 
 fun transform(value: UserResponse) =
     UserEntity(
-        value.login.orEmpty(),
+        value.name.orEmpty(),
         value.id ?: 0,
         value.avatar_url.orEmpty()
     )

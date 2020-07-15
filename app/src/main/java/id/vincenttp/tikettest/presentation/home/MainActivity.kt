@@ -2,6 +2,7 @@ package id.vincenttp.tikettest.presentation.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import id.vincenttp.tikettest.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -21,6 +22,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         rvUser.adapter = adapter
+        etSearch.doAfterTextChanged {
+            viewModel.search(it.toString())
+        }
     }
 
     private fun observeUsers() {

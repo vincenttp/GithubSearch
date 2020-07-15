@@ -10,6 +10,7 @@
     tools:context=".presentation.home.MainActivity">
 
     <EditText
+        android:id="@+id/etSearch"
         android:layout_width="@dimen/full_width_component"
         android:layout_height="wrap_content"
         android:importantForAutofill="no"
