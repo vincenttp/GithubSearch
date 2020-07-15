@@ -8,6 +8,6 @@ import retrofit2.http.GET
  */
 
 interface UserApi {
-    @GET("v1/me")
+    @GET("users")
     suspend fun getUsers(): List<UserResponse>
 }
