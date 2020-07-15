@@ -25,6 +25,7 @@ class PostsDataSource(private val repository: UserRepository) :
             invoke {
                 when (it) {
                     is Result.Success<List<UserEntity>> -> {
+                        key = it.data.last().id
                         callback.onResult(it.data)
                     }
                     is Result.Error -> {
@@ -40,6 +41,7 @@ class PostsDataSource(private val repository: UserRepository) :
             invoke {
                 when (it) {
                     is Result.Success<List<UserEntity>> -> {
+                        key = it.data.last().id
                         callback.onResult(it.data)
                     }
                     is Result.Error -> {
@@ -57,9 +59,8 @@ class PostsDataSource(private val repository: UserRepository) :
     override fun getKey(item: UserEntity): Int = key
 
     private fun invoke(result: (Result<List<UserEntity>>) -> Unit) {
-        key++
         coroutineScope.launch {
-            result(either { repository.getUser() })
+            result(either { repository.getUser(key) })
         }
     }
 }

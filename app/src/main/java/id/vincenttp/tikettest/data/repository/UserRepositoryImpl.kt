@@ -10,5 +10,5 @@ import id.vincenttp.tikettest.domain.repository.UserRepository
  */
 class UserRepositoryImpl(private val api: UserApi) :
     UserRepository {
-    override suspend fun getUser(): List<UserEntity> = api.getUsers().map(::transform)
+    override suspend fun getUser(since: Int): List<UserEntity> = api.getUsers(since).map(::transform)
 }
