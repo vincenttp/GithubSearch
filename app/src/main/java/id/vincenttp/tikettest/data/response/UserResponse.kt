@@ -1,4 +1,4 @@
-package id.vincenttp.tikettest.data
+package id.vincenttp.tikettest.data.response
 
 import com.google.gson.annotations.SerializedName
 

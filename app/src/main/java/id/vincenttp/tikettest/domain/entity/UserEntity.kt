@@ -1,4 +1,4 @@
-package id.vincenttp.tikettest.domain
+package id.vincenttp.tikettest.domain.entity
 
 /**
  * Created by vincenttp on 13/07/20.
