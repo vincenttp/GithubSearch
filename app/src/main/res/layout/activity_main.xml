@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/padding_layout"
-    tools:context=".presentation.MainActivity">
+    tools:context=".presentation.home.MainActivity">
 
     <EditText
         android:layout_width="@dimen/full_width_component"
@@ -27,8 +27,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvUser"
         android:layout_width="@dimen/full_width_component"
         android:layout_height="@dimen/full_width_component"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
